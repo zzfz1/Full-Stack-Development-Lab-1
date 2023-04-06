@@ -1,0 +1,22 @@
+{
+  "name": "lab1_junxinzheng",
+  "version": "1.0.0",
+  "description": "Lab 1 - DA219A",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gin - Junxin Zheng",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
