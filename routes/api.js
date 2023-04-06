@@ -37,13 +37,47 @@ router
 router.route("/:title").get(async (req, res) => {
   const searching = req.params.title;
   try {
-    const album = await Album.find({ title: searching }).exec();
-    if (album.length === 0) {
+    const albums = await Album.find({ title: searching }).exec();
+    if (albums.length === 0) {
       res.status(404).send("No such album in the database!");
       return;
     }
-    res.json(album);
+    res.json(albums);
   } catch (err) {
     res.status(500).send(err.message);
   }
 });
+
+router
+  .route("/:id")
+  .all(async (req, res, next) => {
+    const searching = req.params.id;
+    let album = await Album.find({ id: searching }).exec();
+    if (album.length === 0) {
+      res.status(404).send("No such album in the database!");
+      return;
+    }
+    res.album = album[0];
+    next();
+  })
+  .put(async (req, res) => {
+    try {
+      let album = res.album;
+      album.title = req.body.title;
+      album.artist = req.body.artist;
+      album.year = req.body.year;
+      const result = await album.save();
+      res.json(result);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      let album = res.album;
+      await album.deleteOne();
+      res.json({ message: "Successfully Deleted!" });
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  });
