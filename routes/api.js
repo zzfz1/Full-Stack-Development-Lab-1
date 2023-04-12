@@ -25,7 +25,7 @@ router
       }
       res.status(201).json(
         await new Album({
-          id: 1,
+          _id: 1,
           ...newAlbum,
         }).save()
       );
@@ -52,7 +52,7 @@ router
   .route("/:id")
   .all(async (req, res, next) => {
     const searching = req.params.id;
-    let album = await Album.find({ id: searching }).exec();
+    let album = await Album.find({ _id: searching }).exec();
     if (album.length === 0) {
       res.status(404).send("No such album in the database!");
       return;
