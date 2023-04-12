@@ -12,10 +12,11 @@ async function getAlbums() {
     const actionsCell = row.insertCell();
     const updateButton = document.createElement("button");
     updateButton.innerText = "Update";
-    updateButton.classList.add("btn-update", "mx-3");
+    updateButton.classList.add("btn-update", "mx-3", "btn", "btn-secondary");
     actionsCell.appendChild(updateButton);
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "Delete";
+    deleteButton.classList.add("btn-delete", "btn", "btn-secondary");
     deleteButton.addEventListener("click", async () => {
       if (confirm("Are you sure you want to delete this album?")) {
         try {
