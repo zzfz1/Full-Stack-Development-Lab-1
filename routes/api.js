@@ -57,12 +57,12 @@ router
       res.status(404).send("No such album in the database!");
       return;
     }
-    res.album = album[0];
+    req.album = album[0];
     next();
   })
   .put(async (req, res) => {
     try {
-      let album = res.album;
+      let album = req.album;
       album.title = req.body.title;
       album.artist = req.body.artist;
       album.year = req.body.year;

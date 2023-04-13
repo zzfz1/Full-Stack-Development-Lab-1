@@ -5,18 +5,31 @@ async function getAlbums() {
   table.innerHTML = "";
   albums.forEach((album) => {
     const row = table.insertRow();
-    row.insertCell().innerText = album._id;
+    row.dataset.id = album._id;
     row.insertCell().innerText = album.title;
     row.insertCell().innerText = album.artist;
     row.insertCell().innerText = album.year;
     const actionsCell = row.insertCell();
+    const detailsButton = document.createElement("button");
+    detailsButton.innerText = "Details";
+    detailsButton.classList.add("btn-details", "mx-2", "btn", "btn-secondary");
+    detailsButton.addEventListener("click", async () => {
+      const detailsTable = document.getElementById("details-table");
+      if (detailsTable.getAttribute("hidden"))
+        detailsTable.removeAttribute("hidden");
+      detailsTable.querySelector("#details-id").textContent = album._id;
+      detailsTable.querySelector("#details-title").textContent = album.title;
+      detailsTable.querySelector("#details-artist").textContent = album.artist;
+      detailsTable.querySelector("#details-year").textContent = album.year;
+    });
+    actionsCell.appendChild(detailsButton);
     const updateButton = document.createElement("button");
     updateButton.innerText = "Update";
-    updateButton.classList.add("btn-update", "mx-3", "btn", "btn-secondary");
+    updateButton.classList.add("btn-update", "mx-2", "btn", "btn-secondary");
     actionsCell.appendChild(updateButton);
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "Delete";
-    deleteButton.classList.add("btn-delete", "btn", "btn-secondary");
+    deleteButton.classList.add("btn-delete", "mx-2", "btn", "btn-secondary");
     deleteButton.addEventListener("click", async () => {
       if (confirm("Are you sure you want to delete this album?")) {
         try {
@@ -43,7 +56,7 @@ tableBody.addEventListener("click", async (event) => {
 
   if (target.classList.contains("btn-update")) {
     const row = target.parentNode.parentNode;
-    const cells = row.querySelectorAll("td:not(:first-child):not(:last-child)");
+    const cells = row.querySelectorAll("td:not(:last-child)");
 
     cells.forEach((cell) => {
       const text = cell.innerHTML.trim();
@@ -59,7 +72,7 @@ tableBody.addEventListener("click", async (event) => {
   }
   if (target.classList.contains("btn-save")) {
     const row = target.parentNode.parentNode;
-    const cells = row.querySelectorAll("td:not(:first-child):not(:last-child)");
+    const cells = row.querySelectorAll("td:not(:last-child)");
 
     // Replace input elements with new cell contents
     cells.forEach((cell) => {
@@ -75,14 +88,13 @@ tableBody.addEventListener("click", async (event) => {
     saveBtn.textContent = "Update";
 
     // Send PUT request to update album data
-    const albumId = row.querySelector("td:first-child").textContent.trim();
     const title = cells[0].textContent.trim();
     const artist = cells[1].textContent.trim();
     const year = cells[2].textContent.trim();
 
     try {
       const message = await fetch(
-        `http://localhost:3000/api/albums/${albumId}`,
+        `http://localhost:3000/api/albums/${row.dataset.id}`,
         {
           method: "PUT",
           headers: {
@@ -95,6 +107,7 @@ tableBody.addEventListener("click", async (event) => {
     } catch (error) {
       console.error(error);
     }
+    await getAlbums();
   }
 });
 

@@ -14,10 +14,27 @@
   </head>
   <body>
     <h1 class="mb-3">Albums</h1>
-    <table class="table table-hover align-middle" id="album-table">
+    <table class="table align-middle" id="details-table" hidden="true">
       <thead>
         <tr>
           <th>ID</th>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="details-id"></td>
+          <td id="details-title"></td>
+          <td id="details-artist"></td>
+          <td id="details-year"></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-hover align-middle" id="album-table">
+      <thead>
+        <tr>
           <th>Title</th>
           <th>Artist</th>
           <th>Year</th>
