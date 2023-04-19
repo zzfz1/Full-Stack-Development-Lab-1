@@ -1,5 +1,5 @@
 async function getAlbums() {
-  let albums = await fetch("http://localhost:3000/api/albums");
+  let albums = await fetch("/api/albums");
   albums = await albums.json();
   const table = document.getElementById("album-table").querySelector("tbody");
   table.innerHTML = "";
@@ -33,7 +33,7 @@ async function getAlbums() {
     deleteButton.addEventListener("click", async () => {
       if (confirm("Are you sure you want to delete this album?")) {
         try {
-          await fetch(`http://localhost:3000/api/albums/${album._id}`, {
+          await fetch(`/api/albums/${album._id}`, {
             method: "DELETE",
           });
           row.remove();
@@ -93,16 +93,13 @@ tableBody.addEventListener("click", async (event) => {
     const year = cells[2].textContent.trim();
 
     try {
-      const message = await fetch(
-        `http://localhost:3000/api/albums/${row.dataset.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title, artist, year }),
-        }
-      );
+      const message = await fetch(`/api/albums/${row.dataset.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, artist, year }),
+      });
       console.log(await message.json());
     } catch (error) {
       console.error(error);
@@ -118,7 +115,7 @@ form.addEventListener("submit", async (event) => {
   const artist = document.getElementById("artist").value.trim();
   const year = document.getElementById("year").value.trim();
   try {
-    const response = await fetch("http://localhost:3000/api/albums", {
+    const response = await fetch("/api/albums", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
