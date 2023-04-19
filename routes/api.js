@@ -74,7 +74,7 @@ router
   })
   .delete(async (req, res) => {
     try {
-      let album = res.album;
+      let album = req.album;
       await album.deleteOne();
       res.json({ message: "Successfully Deleted!" });
     } catch (err) {
