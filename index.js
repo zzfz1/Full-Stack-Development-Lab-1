@@ -6,7 +6,7 @@ import { router } from "./routes/api.js";
 const app = express();
 dotenv.config();
 
-app.use(express.static("public"));
+app.use(express.static("client"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
